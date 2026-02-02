@@ -3,7 +3,7 @@ import time
 import random
 import keyboard
 
-width_pad = 8
+width_pad = 9
 superspd = 2
 
 
@@ -44,7 +44,8 @@ def main(stdscr):
             else: 
                 pad_x +=2
             pad_x = max(1, min(pad_x, sw - width_pad))
-        if keyboard._pressed_events:
+        if keyboard.is_pressed("space") and not start:
+            ball_x = pad_x + int(width_pad /2)
             start = True
 
         
@@ -67,7 +68,12 @@ def main(stdscr):
             if ball_y <=0:
                  ball_dy *= -1
             if ball_y == pad_y and pad_x <= ball_x <= pad_x + width_pad:
-                 ball_dy *= -1
+                ball_dy *= -1
+                if ball_x < (pad_x + width_pad/2) and ball_dx == 1:
+                    ball_dx = -1
+                if ball_x > (pad_x + width_pad/2) and ball_dx == -1:
+                    ball_dx = 1
+
             if ball_y > sh - 1:
                 start = False
                 ball_y, ball_x = pad_y - 1, pad_x + width_pad // 2
@@ -76,8 +82,12 @@ def main(stdscr):
                 by, bx = brick
                 if ball_y == by and bx <= ball_x < bx + 4:
                     ball_dy *= -1
+                    bricks.remove((by,bx))
 
             stdscr.addch(ball_y, ball_x, "o")
+            stdscr.addstr(0,0, str(ball_dx))
+            stdscr.addstr(0,6, str(ball_x))
+            stdscr.addstr(0,12, str(pad_x+width_pad))
 
 
         stdscr.refresh()
