@@ -32,7 +32,7 @@ def main(stdscr):
         time.sleep(1/15)
         if keyboard.is_pressed("b"):
             break
-        elif keyboard.is_pressed("q"):
+        elif keyboard.is_pressed("q") or keyboard.is_pressed("a"):
             if keyboard.is_pressed("shift"):
                 pad_x -= 2*superspd
             else: 
