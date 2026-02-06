@@ -29,7 +29,7 @@ def main(stdscr):
     #print(bricks)
 
     while True:
-        time.sleep(1/20)
+        time.sleep(1/15)
         if keyboard.is_pressed("b"):
             break
         elif keyboard.is_pressed("q"):
@@ -80,9 +80,14 @@ def main(stdscr):
                 ball_dy, ball_dx = -1, random.choice([-1, 1])
             for brick in bricks:
                 by, bx = brick
-                if ball_y == by and bx <= ball_x < bx + 4:
-                    ball_dy *= -1
+                if ball_y == by and bx-1<=ball_x<=bx+2:
                     bricks.remove((by,bx))
+                if ball_y + ball_dy == by and bx -1 <= ball_x + ball_dx <= bx + 2:
+                    bricks.remove((by,bx))
+                    if bx <= ball_x <= bx + 2:
+                        ball_dy *= -1
+                    else:
+                        ball_dx *= -1  # playable but need to fix something with ball going inside neighbor block when coliding in the corner ;-;
 
             stdscr.addch(ball_y, ball_x, "o")
             stdscr.addstr(0,0, str(ball_dx))
